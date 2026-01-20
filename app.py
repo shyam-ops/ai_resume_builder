@@ -646,9 +646,8 @@ with tab_resume:
         b64_pdf = base64.b64encode(pdf_bytes).decode('utf-8')
 
         # Display PDF
-        # Display PDF using the secure viewer
         st.markdown("### Preview")
-        pdf_viewer(input=pdf_bytes, width="100%", height="800")
+        pdf_viewer(input=pdf_bytes, width="100%", height="800px")
         
         # Download Buttons
         c1, c2 = st.columns(2)
