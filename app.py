@@ -1,3 +1,5 @@
+import asyncio
+from ai_utils import enhance_resume_ai, generate_cover_letter_ai
 import requests
 import streamlit as st
 from reportlab.lib.pagesizes import letter
@@ -491,64 +493,43 @@ Certifications
             # RESUME
             if gen_resume:
                 with st.spinner("Generating enhanced resume..."):
-                    resp = requests.post(
-                        f"{API_BASE}/genai/enhance",
-                        json={
-                            "resume_text": resume_text,
-                            "job_description": job_description,
-                        },
-                    )
+                    # Call AI directly using asyncio
+                    data = asyncio.run(enhance_resume_ai(resume_text, job_description))
 
-                    if resp.status_code == 200:
-                        data = resp.json()
-                        
-                        st.session_state["ai_contact"] = data.get("contact", {})
-                        st.session_state["ai_summary"] = data.get("summary", "")
-                        st.session_state["ai_education"] = data.get("education", [])
-                        st.session_state["ai_experience"] = data.get("experience", [])
-                        st.session_state["ai_projects"] = data.get("projects", [])
-                        st.session_state["ai_skills"] = data.get("skills", [])
-                        st.session_state["ai_technical_skills"] = data.get("technical_skills", [])
-                        st.session_state["ai_soft_skills"] = data.get("soft_skills", [])
-                        st.session_state["ai_certifications"] = data.get("certifications", [])
-                        st.session_state["resume_data"] = data
-                        st.success("Resume generated. Check the 📄 Resume tab.")
+                    if "error" in data:
+                        st.error(data["error"])
                     else:
-                        st.error(f"Backend error: {resp.text}")
+                        # Store all AI data in session state
+                        st.session_state["resume_data"] = data
+                        # We don't need to manually set individual keys like 'ai_contact' 
+                        # because your PDF generator reads from 'resume_data' now.
+                        st.success("Resume generated. Check the 📄 Resume tab.")
 
-
-            # PORTFOLIO
+            # PORTFOLIO GENERATION
             if gen_portfolio:
-                with st.spinner("Generating portfolio view..."):
-                    resp = requests.post(
-                        f"{API_BASE}/genai/portfolio",
-                        json={
-                            "resume_text": resume_text,
-                            "job_description": job_description,
-                        },
-                    )
-                if resp.status_code == 200:
-                    st.session_state["portfolio_data"] = resp.json()
-                    st.success("Portfolio generated. Check the 🌐 Portfolio tab.")
+                # Portfolio is derived from the resume data. 
+                # If resume data doesn't exist yet, we generate it.
+                if not st.session_state.get("resume_data"):
+                     with st.spinner("Generating resume data for portfolio..."):
+                        data = asyncio.run(enhance_resume_ai(resume_text, job_description))
+                        if "error" in data:
+                            st.error(data["error"])
+                        else:
+                            st.session_state["resume_data"] = data
+                            st.success("Portfolio ready! Check the 🌐 Portfolio tab.")
                 else:
-                    st.error(f"Backend error: {resp.text}")
+                    st.success("Portfolio is ready! Check the 🌐 Portfolio tab.")
 
-            # COVER LETTER
+            # COVER LETTER GENERATION
             if gen_cover:
                 with st.spinner("Generating cover letter..."):
-                    resp = requests.post(
-                        f"{API_BASE}/genai/cover-letter",
-                        json={
-                            "resume_text": resume_text,
-                            "job_description": job_description,
-                        },
-                    )
-                if resp.status_code == 200:
-                    st.session_state["cover_letter"] = resp.json()["cover_letter"]
-                    st.success("Cover letter generated. Check the ✉️ Cover Letter tab.")
-                else:
-                    st.error(f"Backend error: {resp.text}")
-
+                    letter = asyncio.run(generate_cover_letter_ai(resume_text, job_description))
+                    
+                    if "Error" in letter:
+                        st.error(letter)
+                    else:
+                        st.session_state["cover_letter"] = letter
+                        st.success("Cover letter generated. Check the ✉️ Cover Letter tab.")
 # ========== RESUME TAB ============
 with tab_resume:
     st.subheader("📄 AI-Enhanced Resume")
