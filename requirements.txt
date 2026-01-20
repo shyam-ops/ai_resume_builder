@@ -25,31 +25,11 @@ textblob==0.17.1
 # PDF / HTML generation
 reportlab==4.0.9
 jinja2==3.1.3
+python-docx
 
 # API / uploads
 requests==2.31.0
 aiohttp==3.9.1
 python-multipart==0.0.6
 
-# Core Backend Framework
-fastapi
-uvicorn[standard]
-pydantic
-python-dotenv
-python-multipart
 
-# API Client (Required for OpenRouter)
-httpx
-requests
-
-# Data Handling
-pandas
-numpy
-
-# PDF Generation
-reportlab
-jinja2
-
-# Frontend
-streamlit
-extra-streamlit-components
