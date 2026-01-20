@@ -1,32 +1,24 @@
-# Core frameworks
-fastapi==0.109.0
-uvicorn[standard]==0.27.0
-pydantic==2.5.3
-python-dotenv==1.0.0
+# Core Backend
+fastapi
+uvicorn[standard]
+pydantic
+python-dotenv
+python-multipart
 
-# Generative AI
-anthropic==0.18.1
-langchain==0.1.6
-langchain-anthropic==0.1.4
-langchain-community==0.0.20
-huggingface-hub==0.20.3
+# API Clients
+httpx
+requests
+aiohttp
 
-# ML / NLP
+# Data Handling
+pandas
+numpy
 
-scikit-learn==1.4.0
-pandas==2.1.4
-numpy==1.26.3
-nltk==3.8.1
-textblob==0.17.1
-
-# PDF / HTML generation
-reportlab==4.0.9
-jinja2==3.1.3
+# PDF & DOCX Generation
+reportlab
+jinja2
 python-docx
 
-# API / uploads
-requests==2.31.0
-aiohttp==3.9.1
-python-multipart==0.0.6
-
-
+# Frontend
+streamlit
+extra-streamlit-components
