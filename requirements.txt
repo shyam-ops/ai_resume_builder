@@ -22,3 +22,4 @@ python-docx
 # Frontend
 streamlit
 extra-streamlit-components
+streamlit-pdf-viewer

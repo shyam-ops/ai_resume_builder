@@ -13,6 +13,7 @@ from src.services.portfolio import generate_portfolio_html
 from pdf_generator import ResumePDFGenerator, ResumeDOCXGenerator
 import streamlit as st
 import requests
+from streamlit_pdf_viewer import pdf_viewer
 
 
 # other imports ...
@@ -646,8 +647,7 @@ with tab_resume:
 
         # Display PDF
         st.markdown("### Preview")
-        pdf_display = f'<iframe src="data:application/pdf;base64,{b64_pdf}" width="100%" height="800" type="application/pdf"></iframe>'
-        st.markdown(pdf_display, unsafe_allow_html=True)
+        pdf_viewer(input=pdf_bytes, width="100%", height="800px")
         
         # Download Buttons
         c1, c2 = st.columns(2)
