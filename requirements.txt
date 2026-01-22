@@ -20,7 +20,7 @@ jinja2
 python-docx
 
 # Frontend
-streamlit
+streamlit>=1.40.0
 extra-streamlit-components
 streamlit-pdf-viewer
 altair<5
