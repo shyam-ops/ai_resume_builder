@@ -23,3 +23,4 @@ python-docx
 streamlit
 extra-streamlit-components
 streamlit-pdf-viewer
+altair<5
