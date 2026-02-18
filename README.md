@@ -180,9 +180,3 @@ altair<5
 
 - Resume layout inspired by the popular [Jake Ryan LaTeX Resume Template](https://www.overleaf.com/latex/templates/jakes-resume/syzfjbzwjncs)
 - LLM inference powered by [OpenRouter](https://openrouter.ai/)
-
----
-
-## 📄 License
-
-This project is open source and available under the [MIT License](LICENSE).
