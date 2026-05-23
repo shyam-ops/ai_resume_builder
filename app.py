@@ -15,9 +15,6 @@ import streamlit as st
 import requests
 from streamlit_pdf_viewer import pdf_viewer
 
-
-# other imports ...
-
 # ---------- SESSION STATE INITIALIZATION ----------
 if "basic_info" not in st.session_state:
     st.session_state.basic_info = {
@@ -172,8 +169,6 @@ API_BASE = "http://127.0.0.1:8000"
 st.title("AI Resume Builder")
 
 st.caption("Generate tailored resumes, portfolios, and cover letters from your profile and job descriptions.")
-#-------------------------
-#start
 
 #===========================================================================================================
 tab_basic, tab_resume, tab_portfolio, tab_cover = st.tabs(
@@ -709,10 +704,10 @@ def build_portfolio_data(resume_data):
             for p in resume_data.get("projects", [])
         ],
 
-        "skills": (
-            resume_data.get("skills", {}).get("technical", [])
-            + resume_data.get("skills", {}).get("soft", [])
-        ),
+        "skills": {
+            "technical": resume_data.get("skills", {}).get("technical", []),
+            "soft": resume_data.get("skills", {}).get("soft", []),
+        },
 
         "certifications": resume_data.get("certifications", []),
 
